@@ -1,11 +1,11 @@
-import mongoose from "mongoose";
+import mongoose, { models } from "mongoose";
 
 
 
 const newsSchema = new mongoose.Schema({
     title: {
         type: String,
-        requied: true
+        required: true
     },
     description: {
         type: String,
@@ -15,15 +15,8 @@ const newsSchema = new mongoose.Schema({
         type: String,
         required: true
 
-    },
-    link: {
-        type: String,
-        required: true
-
     }
 })
 
-const News = mongoose.model('News', newsSchema);
-
-export default News;
+export const News = mongoose.models.News || mongoose.model("News", newsSchema);
 

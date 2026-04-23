@@ -26,3 +26,10 @@ export interface EmployeeModel {
 export interface UpdateModel {
     id: string
 }
+
+export interface NewsInterface {
+    id: string,
+    title: string,
+    description: string,
+    image: string
+}

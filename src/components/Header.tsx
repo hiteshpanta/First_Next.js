@@ -24,6 +24,7 @@ export default function Header() {
         
         <Show when="signed-in">
               <UserButton />
+              <Link href={'/news/add'}>Add News</Link>
         </Show>
       </nav>
 

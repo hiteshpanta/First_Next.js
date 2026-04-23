@@ -1,52 +1,71 @@
-'use server'
-
-import { EmployeeModel } from "@/models/model"
-import axios from "axios"
-import { revalidatePath } from "next/cache"
+'use server';
 
 
+import { News } from "@/models/News";
+import { connectDb } from "./db";
+import { NewsInterface } from "@/models/model";
+import { revalidatePath } from "next/cache";
 
+export async function getNews() {
+    await connectDb();
 
-
-export async function addEmployee(data: EmployeeModel) {
-    
     try {
-        await axios.post('https://6940d165993d68afba6d189a.mockapi.io/employee', data)
-        revalidatePath('/');
-        return { success: true, message: 'Employee added successfully' }
+        const news = await News.find({});
+        return {
+            success: true,
+            data: news
+        }
+    } catch (error) {
+        console.log('Error is: ',error);
+        return {
+            success: false,
+            message: 'Failed to get news'
+        }
         
+    }
+
+}
+export async function addNews(news: NewsInterface) {
+    await connectDb();
+
+    try {
+        await News.create(news);
+        revalidatePath('/')
+
+        return {
+            success: true,
+            message: 'News added successfully'
+        }
     } catch (err: any) {
-        return { success: false, message: err.message}
+        return {
+            success: false,
+            message: err.mesage
+
+        }
         
     }
     
 }
 
 
-export async function removeEmployee(id: string) {
-    
-    try {
-        await axios.delete(`https://6940d165993d68afba6d189a.mockapi.io/employee/${id}`);
-        revalidatePath('/');
+export async function removeNews(id: string) {
+    await connectDb();
 
-        return { success: true, message: 'Employee removed successfully' }
+
+    try {
+        await News.findByIdAndDelete(id);
+        revalidatePath('/')
+        return {
+            success: true,
+            message: 'News removed successfully'
+        }
         
     } catch (err: any) {
-        return { success: false, message: err.message}
-        
-    }
-    
-}
+        return {
+            success: false,
+            message: err.mesage
 
-export async function updateEmployee(data: EmployeeModel) {
-    
-    try {
-        await axios.patch(`https://6940d165993d68afba6d189a.mockapi.io/employee/${data.id}`, data)
-        revalidatePath('/');
-        return { success: true, message: 'Employee updated successfully' }
-        
-    } catch (err: any) {
-        return { success: false, message: err.message}
+        }
         
     }
     
