@@ -28,7 +28,7 @@ export interface UpdateModel {
 }
 
 export interface NewsInterface {
-    id: string,
+    id?: string,
     title: string,
     description: string,
     image: string

@@ -28,7 +28,7 @@ export default function DeleteNews({ id }: {id: string}) {
     }
 
   return (
-    <div className="mt-4">
+    <div className="">
         <Button disabled={isPending} onClick={handleDelete}>
             {isPending && <Spinner />}
             Delete
